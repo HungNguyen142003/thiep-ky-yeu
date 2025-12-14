@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thư mời kỷ yếu</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family: "Segoe UI","Roboto","Helvetica Neue",Arial,sans-serif;
+  background:linear-gradient(270deg,#c7d2fe,#a5b4fc,#ddd6fe,#c7d2fe);
+  background-size:600% 600%;
+  animation:bgMove 12s ease infinite;
+}
+
+@keyframes bgMove{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+
+/* ================= PHONG BÌ ================= */
+.envelope-container{
+  width:340px;
+  height:230px;
+  position:relative;
+  perspective:1200px;
+}
+
+.envelope{
+  width:100%;
+  height:100%;
+  border-radius:18px;
+  position:relative;
+  cursor:pointer;
+  overflow:hidden;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      rgba(139,92,246,.05),
+      rgba(139,92,246,.05) 6px,
+      rgba(95,156,255,.05) 6px,
+      rgba(95,156,255,.05) 12px
+    ),
+    #fff;
+  box-shadow:0 22px 48px rgba(0,0,0,.3);
+}
+
+.envelope-flap{
+  position:absolute;
+  top:0; left:0;
+  width:100%;
+  height:54%;
+  background:linear-gradient(135deg,#5f9cff,#8b5cf6);
+  clip-path:polygon(0 0,100% 0,50% 100%);
+  transform-origin:top;
+  transition:transform .8s ease;
+  z-index:3;
+}
+
+.envelope-body{
+  position:absolute;
+  inset:0;
+  border:2px solid #8b5cf6;
+  border-radius:18px;
+  z-index:1;
+}
+
+.envelope-text{
+  position:absolute;
+  bottom:24px;
+  width:100%;
+  text-align:center;
+  font-weight:bold;
+  color:#5f9cff;
+  z-index:2;
+}
+
+/* ================= THIỆP ================= */
+.paper{
+  position:absolute;
+  top:55%;
+  left:50%;
+  transform:translate(-50%,40px);
+  width:126%;
+  background:
+    radial-gradient(circle at top left,rgba(139,92,246,.08),transparent 40%),
+    radial-gradient(circle at bottom right,rgba(95,156,255,.08),transparent 40%),
+    #fff;
+  border-radius:26px;
+  padding:28px 22px 26px;
+  text-align:center;
+
+  opacity:0;
+  pointer-events:none;
+  transition:
+    transform .9s cubic-bezier(.25,.8,.25,1),
+    opacity .4s ease;
+  z-index:4;
+  letter-spacing: normal;
+  word-spacing: normal;
+  font-kerning: normal;
+  font-feature-settings: "liga" 1, "kern" 1;
+  text-rendering: optimizeLegibility;
+}
+
+/* viền gradient */
+.paper::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:26px;
+  padding:2px;
+  background:linear-gradient(135deg,#5f9cff,#8b5cf6);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;
+  pointer-events:none;
+}
+
+/* ================= TRẠNG THÁI ================= */
+.envelope-container.open .envelope-flap{
+  transform:rotateX(-180deg);
+}
+
+.envelope-container.open .paper{
+  transform:translate(-50%,-52%);
+  opacity:1;
+  pointer-events:auto;
+}
+
+/* ================= ẢNH KỶ YẾU ================= */
+.photo-section{
+  margin-bottom:18px;
+}
+
+.photo-wrapper{
+  width:110px;
+  height:110px;
+  margin:0 auto;
+  border-radius:50%;
+  padding:4px;
+  background:linear-gradient(135deg,#5f9cff,#8b5cf6);
+  box-shadow:0 0 18px rgba(139,92,246,.35);
+}
+
+.photo-wrapper img{
+  width:100%;
+  height:100%;
+  border-radius:50%;
+  object-fit:cover;
+}
+
+/* divider */
+.photo-divider{
+  width:60px;
+  height:3px;
+  margin:14px auto 0;
+  border-radius:3px;
+  background:linear-gradient(90deg,#5f9cff,#8b5cf6);
+}
+
+/* ================= TIÊU ĐỀ ================= */
+.cap-wrapper{
+  position:relative;
+  margin-bottom:10px;
+}
+
+.cap{
+  font-size:44px;
+}
+
+.cap-text{
+  position:absolute;
+  top:-34px;
+  left:50%;
+  transform:translateX(-50%);
+}
+
+.cap-text text{
+  font-family: "Segoe UI", "Arial", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  fill: #5f9cff;
+  text-rendering: geometricPrecision;
+}
+
+.name{
+  font-size:24px;
+  font-weight:bold;
+  margin:10px 0 16px;
+  color:#4338ca;
+}
+
+/* ================= NỘI DUNG ================= */
+.section{
+  margin:12px 0;
+  padding:12px 16px;
+  border-radius:14px;
+  background:rgba(238,242,255,.9);
+  border-left:4px solid #8b5cf6;
+  text-align:left;
+  font-size:14px;
+  line-height:1.7;
+   letter-spacing: 0;
+  word-spacing: 0;
+}
+
+.section span{
+  font-weight:bold;
+  color:#5f9cff;
+}
+
+.footer{
+  margin-top:20px;
+  font-style:italic;
+  color:#555;
+}
+
+.close-btn{
+  margin-top:16px;
+  display:inline-block;
+  padding:8px 20px;
+  border-radius:24px;
+  background:linear-gradient(135deg,#5f9cff,#8b5cf6);
+  color:#fff;
+  font-size:13px;
+  cursor:pointer;
+}
+
+/* ================= MOBILE RẤT NHỎ ================= */
+@media(max-height:700px){
+  .paper{
+    max-height:85vh;
+    overflow-y:auto;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="envelope-container" id="env">
+  <div class="envelope" onclick="openLetter()">
+    <div class="envelope-flap"></div>
+    <div class="envelope-body"></div>
+    <div class="envelope-text">📜 Bấm để mở thư</div>
+  </div>
+
+  <div class="paper">
+
+    <!-- ẢNH -->
+    <div class="photo-section">
+      <div class="photo-wrapper">
+        <img src="images/Anhthiep.jpg" alt="Ảnh kỷ yếu">
+      </div>
+      <div class="photo-divider"></div>
+    </div>
+
+    <!-- TIÊU ĐỀ -->
+    <div class="cap-wrapper">
+      <svg width="200" height="60" class="cap-text">
+        <path id="curve" d="M10,50 Q100,10 190,50" fill="transparent"/>
+        <text>
+          <textPath href="#curve" startOffset="50%" text-anchor="middle">
+            LỄ KỶ YẾU CỦA HẬU
+          </textPath>
+        </text>
+      </svg>
+      <div class="cap">🎓</div>
+    </div>
+
+    <div class="name" id="guestName"></div>
+
+    <div class="section"><span>📍 Địa điểm:</span> Sân Trường – Trường THPT Lý Thái Tổ</div>
+    <div class="section"><span>📅 Ngày:</span> 28 / 12 / 2025</div>
+    <div class="section"><span>⏰ Giờ:</span> 09:30 sáng</div>
+
+    <div class="section">
+      <span>💌 Lời nhắn:</span><br>
+      Bức ảnh của tôi cần bạn để trở nên ngầu hơn.
+    </div>
+    <div class="section">
+  <span>📞 Liên hệ:</span>
+  <a href="tel:0987654321" style="color:#4338ca;text-decoration:none;font-weight:600;">
+    0987 654 321
+  </a>
+</div>
+    <div class="footer">Trân trọng kính mời</div>
+    <div class="close-btn" onclick="closeLetter()">Đóng thư</div>
+  </div>
+</div>
+
+<script>
+const env=document.getElementById('env');
+let opened=false;
+
+function openLetter(){
+  if(opened) return;
+  opened=true;
+  env.classList.add('open');
+}
+
+function closeLetter(){
+  env.classList.remove('open');
+  opened=false;
+}
+
+const params = new URLSearchParams(window.location.search);
+let name = params.get('name');
+
+name = name ? decodeURIComponent(name).trim() : '';
+
+document.getElementById('guestName').innerText =
+  name
+    ? `Mời ${name} đến dự`
+    : 'Gửi lời mời đến bạn thân mến';
+</script>
+</script>
+
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<title>Nhập tên - Thiệp mời</title>
+<style>
+body {
+margin: 0;
+font-family: Arial, sans-serif;
+height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: linear-gradient(
+    270deg,
+    #66CCFF,
+    #3366FF,
+    #9966FF,
+    #66CCFF
+  );
+  background-size: 600% 600%;
+
+  animation: gradientMove 10s ease infinite;
+}
+
+@keyframes gradientMove {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.card {
+background: #0099FF;
+padding: 30px;
+border-radius: 16px;
+box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+width: 340px;
+text-align: center;
+}
+input {
+width: 100%;
+padding: 12px;
+margin: 15px 0;
+border-radius: 10px;
+border: 1px solid #ccc;
+font-size: 16px;
+}
+button {
+padding: 12px 24px;
+border: none;
+border-radius: 10px;
+background: #110000;
+color: #FFFFFF;
+font-size: 16px;
+cursor: pointer;
+}
+button:hover {
+background: #363636;
+color: #87CEFA;
+}
+</style>
+</head>
+<body>
+<div class="card">
+<h2>Nhập tên tôi hoặc đặt biệt danh cho tôi</h2>
+<input type="text" id="nameInput" placeholder="Ví dụ: Nguyễn Văn A" />
+<button onclick="goToCard()">Xem thiệp mời</button>
+</div>
+
+
+<script>
+function goToCard() {
+const name = document.getElementById('nameInput').value.trim();
+if (name === '') {
+alert('Vui lòng nhập tên');
+return;
+}
+window.location.href = `thiep.html?name=${encodeURIComponent(name)}`;
+}
+</script>
+</body>
+</html>
